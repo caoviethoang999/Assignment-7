@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         addDataCategoryItem()
     }
 
-
+//test
     fun addDataTopProduct() {
         recylerViewTopProduct.layoutManager = GridLayoutManager(requireContext(), 2)
         topProductAdapter = TopProductAdapter()
