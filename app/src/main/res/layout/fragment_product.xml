@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBarProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_tool2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_shopping" />
+
+    <TextView
+        android:id="@+id/txtCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragmentHome_marginLeft"
+        android:layout_marginTop="@dimen/textView_categories_marginTop"
+        android:text="@string/customview_item_vegetablesTitle"
+        android:textColor="#0FA956"
+        android:textSize="@dimen/textView_categories_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBarProduct" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylerViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragmentHome_marginLeft"
+        android:layout_marginTop="@dimen/searchView_home_marginTop"
+        android:layout_marginEnd="@dimen/fragment_marginRight"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtCategories" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:layout_constraintTop_toBottomOf="@id/recylerViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/textView_categories_marginTop"
+        android:background="@drawable/background_tool2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menu_navigation" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
