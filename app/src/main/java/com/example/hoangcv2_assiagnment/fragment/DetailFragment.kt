@@ -5,10 +5,12 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.adapter.ProductAdapter
 import com.example.hoangcv2_assiagnment.model.Product
 import kotlinx.android.synthetic.main.fragment_detail.*
+import java.util.*
 
 class DetailFragment : Fragment() {
     lateinit var productAdapter: ProductAdapter
@@ -20,9 +22,17 @@ class DetailFragment : Fragment() {
         recylerViewProduct.layoutManager = GridLayoutManager(requireContext(), 2)
         productAdapter = ProductAdapter()
         addData()
+        addDataToImageSlider()
     }
 
 
+    fun addDataToImageSlider(){
+        val imageList = ArrayList<SlideModel>()
+        imageList.add(SlideModel(R.drawable.tomato))
+        imageList.add(SlideModel(R.drawable.grapes))
+        imageList.add(SlideModel(R.drawable.pumpkins))
+        image_slider.setImageList(imageList)
+    }
     fun addData() {
         val list: MutableList<Product>
         list = ArrayList()

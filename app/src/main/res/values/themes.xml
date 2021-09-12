@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.HoangCV2_Assiagnment" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.HoangCV2_Assiagnment" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#0FA956</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
