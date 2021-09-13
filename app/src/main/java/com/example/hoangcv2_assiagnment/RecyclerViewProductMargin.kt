@@ -17,14 +17,13 @@ class RecyclerViewProductMargin(val columns: Int, var margin: Int) : RecyclerVie
         val position: Int = parent.getChildLayoutPosition(view)
 //        outRect.bottom = margin!!
         //get position as first row
-//        if (position > columns!!) {
+//        if (position < columns!!) {
 //            outRect.left = margin!!
 //        }
-        //get position as first columns
-//        if (position / columns!! != 0) {
-//            outRect.left = margin!!
-//        } else if (position / columns!! == 0) {
-//        }
-        outRect.top = margin!!
+//        get position as first columns
+        if (position % columns != 0) {
+            outRect.left = margin
+        }
+        outRect.top = margin
     }
 }

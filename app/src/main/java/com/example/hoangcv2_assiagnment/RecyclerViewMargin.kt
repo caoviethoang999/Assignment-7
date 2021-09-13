@@ -19,9 +19,8 @@ class RecyclerViewMargin(val columns: Int, var margin: Int) : RecyclerView.ItemD
 //        if (position > columns!!) {
 //            outRect.left = margin!!
 //        }
-        if (position / columns!! != 0) {
-            outRect.left = margin!!
-        } else if (position / columns!! == 0) {
+        if (position / columns != 0) {
+            outRect.left = margin
         }
     }
 }

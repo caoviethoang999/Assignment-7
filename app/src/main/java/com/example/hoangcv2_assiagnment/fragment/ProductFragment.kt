@@ -29,7 +29,7 @@ class ProductFragment : Fragment() {
         list = ArrayList()
         recylerViewProduct.addItemDecoration(
             RecyclerViewProductMargin(
-                1,
+                2,
                 resources.getDimensionPixelSize(R.dimen.recyclerView_product_marginTop)
             )
         )

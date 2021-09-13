@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
         topProductAdapter = TopProductAdapter()
         recylerViewTopProduct.addItemDecoration(
             RecyclerViewProductMargin(
-                1,
+                2,
                 resources.getDimensionPixelSize(R.dimen.recyclerView_product_marginTop)
             )
         )
