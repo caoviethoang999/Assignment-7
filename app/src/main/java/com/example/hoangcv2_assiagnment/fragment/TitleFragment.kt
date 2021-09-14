@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.fragment_title.*
 
 class TitleFragment : Fragment(), View.OnClickListener {
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnHome.setOnClickListener(this)
@@ -24,11 +23,11 @@ class TitleFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btnHome -> {
+        when(v?.id){
+            R.id.btnHome->{
                 val recylerFragment = HomeFragment()
                 activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_container, recylerFragment)?.commit()
+                    ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
             }
         }
     }

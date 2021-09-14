@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.RecyclerViewMargin
 import com.example.hoangcv2_assiagnment.RecyclerViewProductMargin
@@ -17,7 +18,7 @@ import com.example.hoangcv2_assiagnment.model.Product
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnItemClickListener {
     lateinit var topProductAdapter: TopProductAdapter
     lateinit var itemAdapter: ItemAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,15 +31,13 @@ class HomeFragment : Fragment() {
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
         addDataTopProduct()
         addDataCategoryItem()
     }
 
-//test
     fun addDataTopProduct() {
         recylerViewTopProduct.layoutManager = GridLayoutManager(requireContext(), 2)
-        topProductAdapter = TopProductAdapter()
+        topProductAdapter = TopProductAdapter(this)
         recylerViewTopProduct.addItemDecoration(
             RecyclerViewProductMargin(
                 2,
@@ -66,7 +65,7 @@ class HomeFragment : Fragment() {
     fun addDataCategoryItem() {
         recylerViewItem.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        itemAdapter = ItemAdapter()
+        itemAdapter = ItemAdapter(this)
         recylerViewItem.addItemDecoration(
             RecyclerViewMargin(
                 1,
@@ -99,4 +98,18 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
     }
+
+    override fun onItemClick(position: Int,number:Int) {
+        if (number==1) {
+            val recylerFragment = ProductFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
+        }else{
+            val recylerFragment = DetailFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
+        }
+    }
+
+
 }

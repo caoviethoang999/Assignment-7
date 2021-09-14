@@ -1,5 +1,6 @@
 package com.example.hoangcv2_assiagnment.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.fragment.DetailFragment
 import com.example.hoangcv2_assiagnment.model.Product
 import java.util.*
 
 
-class TopProductAdapter : RecyclerView.Adapter<TopProductAdapter.ItemViewHolder>() {
+class TopProductAdapter(var onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<TopProductAdapter.ItemViewHolder>() {
     var list: MutableList<Product>
     fun getAll(list: MutableList<Product>?) {
         this.list = list!!
@@ -33,10 +35,7 @@ class TopProductAdapter : RecyclerView.Adapter<TopProductAdapter.ItemViewHolder>
         holder.imgViewItem.setImageResource(product.image)
         holder.backgroundItem.setBackgroundResource(product.imageBackgournd)
         holder.itemView.setOnClickListener {
-            val activity = it.context as AppCompatActivity
-            val recylerFragment = DetailFragment()
-            activity.supportFragmentManager.beginTransaction()
-                .addToBackStack(null).replace(R.id.fragment_container, recylerFragment).commit()
+            onItemClickListener.onItemClick(position,2)
         }
     }
 

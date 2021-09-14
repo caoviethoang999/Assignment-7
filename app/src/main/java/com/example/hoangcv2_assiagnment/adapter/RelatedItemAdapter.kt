@@ -8,13 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.fragment.DetailFragment
 import com.example.hoangcv2_assiagnment.model.Product
 import java.util.*
 
 
-class RelatedItemAdapter : RecyclerView.Adapter<RelatedItemAdapter.ItemViewHolder>() {
+class RelatedItemAdapter(var onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<RelatedItemAdapter.ItemViewHolder>() {
     var list: MutableList<Product>
     fun getAll(list: MutableList<Product>?) {
         this.list = list!!
@@ -33,10 +34,7 @@ class RelatedItemAdapter : RecyclerView.Adapter<RelatedItemAdapter.ItemViewHolde
         holder.imgViewItem.setImageResource(product.image)
         holder.backgroundItem.setBackgroundResource(product.imageBackgournd)
         holder.itemView.setOnClickListener {
-            val activity = it.context as AppCompatActivity
-            val recylerFragment = DetailFragment()
-            activity.supportFragmentManager.beginTransaction()
-                .addToBackStack(null).replace(R.id.fragment_container, recylerFragment).commit()
+            onItemClickListener.onItemClick(position,1)
         }
     }
 

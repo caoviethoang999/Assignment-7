@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.RecyclerViewMargin
 import com.example.hoangcv2_assiagnment.adapter.RelatedItemAdapter
@@ -13,7 +14,7 @@ import com.example.hoangcv2_assiagnment.model.Product
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(),OnItemClickListener {
     lateinit var relatedItemAdapter: RelatedItemAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +38,7 @@ class DetailFragment : Fragment() {
     }
     fun addData() {
         recylerViewProduct.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        relatedItemAdapter = RelatedItemAdapter()
+        relatedItemAdapter = RelatedItemAdapter(this)
         recylerViewProduct.addItemDecoration(
             RecyclerViewMargin(
                 1,
@@ -81,6 +82,14 @@ class DetailFragment : Fragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onItemClick(position: Int,number:Int) {
+        if (number==1) {
+            val recylerFragment = DetailFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
         }
     }
 }

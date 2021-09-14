@@ -5,26 +5,27 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.RecyclerViewProductMargin
 import com.example.hoangcv2_assiagnment.adapter.ProductAdapter
 import com.example.hoangcv2_assiagnment.model.Product
 import kotlinx.android.synthetic.main.fragment_product.*
 
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(),OnItemClickListener {
     lateinit var productAdapter: ProductAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val appCompatActivity = activity as AppCompatActivity?
         appCompatActivity?.setSupportActionBar(toolBarProduct)
         appCompatActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        recylerViewProduct.layoutManager = GridLayoutManager(requireContext(), 2)
-        productAdapter = ProductAdapter()
         addData()
     }
 
 
     fun addData() {
+        recylerViewProduct.layoutManager = GridLayoutManager(requireContext(), 2)
+        productAdapter = ProductAdapter(this)
         val list: MutableList<Product>
         list = ArrayList()
         recylerViewProduct.addItemDecoration(
@@ -70,6 +71,14 @@ class ProductFragment : Fragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onItemClick(position: Int,number:Int) {
+        if (number==1) {
+            val recylerFragment = DetailFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
         }
     }
 }
