@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
+import com.example.hoangcv2_assiagnment.Status
 import com.example.hoangcv2_assiagnment.fragment.DetailFragment
 import com.example.hoangcv2_assiagnment.model.Product
 import java.util.*
@@ -34,7 +35,7 @@ class ProductAdapter(var onItemClickListener: OnItemClickListener) : RecyclerVie
         holder.imgViewItem.setImageResource(product.image)
         holder.backgroundItem.setBackgroundResource(product.imageBackgournd)
         holder.itemView.setOnClickListener {
-            onItemClickListener.onItemClick(position,1)
+            onItemClickListener.onItemClick(position,Status.DETAIL)
         }
     }
 

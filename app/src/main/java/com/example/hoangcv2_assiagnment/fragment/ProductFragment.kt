@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.RecyclerViewProductMargin
+import com.example.hoangcv2_assiagnment.Status
 import com.example.hoangcv2_assiagnment.adapter.ProductAdapter
 import com.example.hoangcv2_assiagnment.model.Product
 import kotlinx.android.synthetic.main.fragment_product.*
@@ -74,8 +75,8 @@ class ProductFragment : Fragment(),OnItemClickListener {
         }
     }
 
-    override fun onItemClick(position: Int,number:Int) {
-        if (number==1) {
+    override fun onItemClick(position: Int,status:Status) {
+        if (status== Status.DETAIL) {
             val recylerFragment = DetailFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()

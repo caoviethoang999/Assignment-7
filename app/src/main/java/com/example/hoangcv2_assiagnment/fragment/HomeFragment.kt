@@ -7,10 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hoangcv2_assiagnment.OnItemClickListener
-import com.example.hoangcv2_assiagnment.R
-import com.example.hoangcv2_assiagnment.RecyclerViewMargin
-import com.example.hoangcv2_assiagnment.RecyclerViewProductMargin
+import com.example.hoangcv2_assiagnment.*
 import com.example.hoangcv2_assiagnment.adapter.ItemAdapter
 import com.example.hoangcv2_assiagnment.adapter.TopProductAdapter
 import com.example.hoangcv2_assiagnment.model.ItemCategory
@@ -99,12 +96,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
         inflater.inflate(R.menu.menu_shopping, menu)
     }
 
-    override fun onItemClick(position: Int,number:Int) {
-        if (number==1) {
+    override fun onItemClick(position: Int,status:Status) {
+        if (status== Status.CATEGORY) {
             val recylerFragment = ProductFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
-        }else{
+        }else if (status== Status.DETAIL) {
             val recylerFragment = DetailFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()

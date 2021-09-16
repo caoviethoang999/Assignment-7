@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
+import com.example.hoangcv2_assiagnment.Status
 import com.example.hoangcv2_assiagnment.fragment.ProductFragment
 import com.example.hoangcv2_assiagnment.model.ItemCategory
 import java.util.*
@@ -32,7 +33,7 @@ class ItemAdapter(var onItemClickListener: OnItemClickListener) : RecyclerView.A
         holder.imgViewItem.setImageResource(itemCategory.image)
         holder.imgViewItem.setBackgroundResource(itemCategory.imageBackground)
         holder.itemView.setOnClickListener {
-            onItemClickListener.onItemClick(position,1)
+            onItemClickListener.onItemClick(position,Status.CATEGORY)
         }
     }
 
