@@ -51,14 +51,4 @@ class ProductViewModel constructor(private val mainRepository: ProductRepository
             }
         })
     }
-    fun checkCategory(categoryId: Int){
-        mainRepository.checkCategory(categoryId).enqueue(object: Callback<MutableList<Category>> {
-            override fun onResponse(call: Call<MutableList<Category>>, response: Response<MutableList<Category>>) {
-                categoryList.postValue(response.body())
-            }
-
-            override fun onFailure(call: Call<MutableList<Category>>, t: Throwable) {
-            }
-        })
-    }
 }
