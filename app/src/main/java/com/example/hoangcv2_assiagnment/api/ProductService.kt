@@ -23,10 +23,6 @@ interface ProductService {
     @FormUrlEncoded
     fun getProductByCategory(@Field("category_id") categoryId: Int): Call<MutableList<Product>>
 
-    @POST("/HoangCV2/checkCategory.php")
-    @FormUrlEncoded
-    fun checkCategory(@Field("category_id") categoryId: Int): Call<MutableList<Category>>
-
 
     @POST("/HoangCV2/deleteProduct.php")
     @FormUrlEncoded
