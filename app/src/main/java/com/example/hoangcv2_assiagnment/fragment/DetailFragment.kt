@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.hoangcv2_assiagnment.OnItemClickListener
@@ -11,11 +12,18 @@ import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.RecyclerViewMargin
 import com.example.hoangcv2_assiagnment.Status
 import com.example.hoangcv2_assiagnment.adapter.RelatedItemAdapter
+import com.example.hoangcv2_assiagnment.api.ProductService
 import com.example.hoangcv2_assiagnment.model.Product
+import com.example.hoangcv2_assiagnment.viewmodel.ProductRepository
+import com.example.hoangcv2_assiagnment.viewmodel.ProductViewModel
+import com.example.hoangcv2_assiagnment.viewmodel.ProductViewModelFactory
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 
 class DetailFragment : Fragment(),OnItemClickListener {
+    lateinit var viewModel: ProductViewModel
+    private val productService = ProductService.getInstance()
+    lateinit var list: MutableList<Product>
     lateinit var relatedItemAdapter: RelatedItemAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,6 +34,11 @@ class DetailFragment : Fragment(),OnItemClickListener {
         addDataToImageSlider()
         btnAddCart.setOnClickListener {
             txtPriceItem.text=elegantNumber.getNumber()
+//            var sum=0
+//            for (i in 0 until list.size) {
+//                sum += list.get(i).price!!
+//            }
+//            txtPriceItem.text=sum.toString()
         }
     }
 
@@ -46,22 +59,16 @@ class DetailFragment : Fragment(),OnItemClickListener {
                 resources.getDimensionPixelSize(R.dimen.recyclerView_item_marginRight)
             )
         )
-        val list: MutableList<Product>
-        list = ArrayList()
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.pumpkins, R.drawable.background_pumpkin))
-        relatedItemAdapter.getAll(list)
-        recylerViewProduct.adapter = relatedItemAdapter
+        viewModel.getProduct()
+        viewModel.productList.observe(viewLifecycleOwner,{
+            relatedItemAdapter.getAll(it)
+            recylerViewProduct.adapter = relatedItemAdapter
+        })
+//        var sum=0
+//        for (i in 0 until list.size) {
+//            sum += list[i].price!!
+//        }
+//        txtPriceItem.text=sum.toString()
     }
 
     override fun onCreateView(
@@ -69,10 +76,12 @@ class DetailFragment : Fragment(),OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        viewModel = ViewModelProvider(this, ProductViewModelFactory(ProductRepository(productService))).get(ProductViewModel::class.java)
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
         inflater.inflate(R.menu.menu_shopping, menu)
     }
 

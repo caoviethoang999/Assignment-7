@@ -5,19 +5,28 @@ import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hoangcv2_assiagnment.*
-import com.example.hoangcv2_assiagnment.adapter.ItemAdapter
+import com.example.hoangcv2_assiagnment.adapter.CategoryAdapter
 import com.example.hoangcv2_assiagnment.adapter.TopProductAdapter
-import com.example.hoangcv2_assiagnment.model.ItemCategory
+import com.example.hoangcv2_assiagnment.api.ProductService
+import com.example.hoangcv2_assiagnment.model.Category
 import com.example.hoangcv2_assiagnment.model.Product
+import com.example.hoangcv2_assiagnment.viewmodel.ProductRepository
+import com.example.hoangcv2_assiagnment.viewmodel.ProductViewModel
+import com.example.hoangcv2_assiagnment.viewmodel.ProductViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.ArrayList
 
 
 class HomeFragment : Fragment(), OnItemClickListener {
+    var list:MutableList<Category> = ArrayList<Category>()
+    lateinit var viewModel: ProductViewModel
+    private val productService = ProductService.getInstance()
     lateinit var topProductAdapter: TopProductAdapter
-    lateinit var itemAdapter: ItemAdapter
+    lateinit var categoryAdapter: CategoryAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val appCompatActivity = activity as AppCompatActivity?
@@ -41,47 +50,30 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 resources.getDimensionPixelSize(R.dimen.recyclerView_product_marginTop)
             )
         )
-        val list: MutableList<Product>
-        list = ArrayList()
-        list.add(Product("Grapes", "$1.50", R.drawable.grapes, R.drawable.background_grapes))
-        list.add(Product("Tomato", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        list.add(Product("Pumpkins", "$1.50", R.drawable.tomato, R.drawable.background_tomato))
-        topProductAdapter.getAll(list)
-        recylerViewTopProduct.adapter = topProductAdapter
+        viewModel.getProduct()
+        viewModel.productList.observe(viewLifecycleOwner,{
+
+            topProductAdapter.getAll(it)
+            recylerViewTopProduct.adapter = topProductAdapter
+        })
     }
 
     fun addDataCategoryItem() {
         recylerViewItem.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        itemAdapter = ItemAdapter(this)
+        categoryAdapter = CategoryAdapter(this)
         recylerViewItem.addItemDecoration(
             RecyclerViewMargin(
                 1,
                 resources.getDimensionPixelSize(R.dimen.recyclerView_item_marginRight)
             )
         )
-        val list: MutableList<ItemCategory>
-        list = ArrayList()
-        list.add(
-            ItemCategory(
-                "Vegetables",
-                R.drawable.vegetables,
-                R.drawable.background_vegetables
-            )
-        )
-        list.add(ItemCategory("Drinks", R.drawable.drinks, R.drawable.background_drinks))
-        list.add(ItemCategory("Fruits", R.drawable.fruits, R.drawable.background_fruits))
-        itemAdapter.getAll(list)
-        recylerViewItem.adapter = itemAdapter
+        viewModel.getCategory()
+        viewModel.categoryList.observe(viewLifecycleOwner,{
+            list=it
+            categoryAdapter.getAll(list)
+            recylerViewItem.adapter = categoryAdapter
+        })
     }
 
     override fun onCreateView(
@@ -89,16 +81,19 @@ class HomeFragment : Fragment(), OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        viewModel = ViewModelProvider(this, ProductViewModelFactory(ProductRepository(productService))).get(ProductViewModel::class.java)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
     }
-
     override fun onItemClick(position: Int,status:Status) {
-        if (status== Status.CATEGORY) {
+        if (status== Status.CATEGORY ) {
             val recylerFragment = ProductFragment()
+            val bundle = Bundle()
+            bundle.putString("name", list[position].categoryName)
+            recylerFragment.setArguments(bundle)
             activity?.supportFragmentManager?.beginTransaction()
                 ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
         }else if (status== Status.DETAIL) {
@@ -107,6 +102,4 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 ?.addToBackStack(null)?.replace(R.id.fragment_container, recylerFragment)?.commit()
         }
     }
-
-
 }

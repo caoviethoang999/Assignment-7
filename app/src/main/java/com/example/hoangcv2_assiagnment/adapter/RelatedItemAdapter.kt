@@ -1,17 +1,17 @@
 package com.example.hoangcv2_assiagnment.adapter
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hoangcv2_assiagnment.ImageRequestAsk
 import com.example.hoangcv2_assiagnment.OnItemClickListener
 import com.example.hoangcv2_assiagnment.R
 import com.example.hoangcv2_assiagnment.Status
-import com.example.hoangcv2_assiagnment.fragment.DetailFragment
 import com.example.hoangcv2_assiagnment.model.Product
 import java.util.*
 
@@ -30,12 +30,20 @@ class RelatedItemAdapter(var onItemClickListener: OnItemClickListener) : Recycle
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val product: Product = list[position]
-        holder.txtTitle1.text = product.title
-        holder.txtPrice.text = product.price
-        holder.imgViewItem.setImageResource(product.image)
-        holder.backgroundItem.setBackgroundResource(product.imageBackgournd)
+        holder.txtTitle1.text = product.productName
+        holder.txtPrice.text = "$"+product.productPrice.toString()
+        val photo = ImageRequestAsk().execute(product.productImage).get()!!
+        holder.imgViewItem.setImageBitmap(photo)
+        val background =ImageRequestAsk().execute(product.productBackground).get()!!
+        holder.backgroundItem.background=
+            BitmapDrawable(holder.itemView.context.resources,background)
         holder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(position,Status.DETAIL)
+        }
+        holder.imgViewItem.setOnLongClickListener{
+            list.remove(product)
+            notifyDataSetChanged()
+            true
         }
     }
 
