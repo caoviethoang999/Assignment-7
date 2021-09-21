@@ -39,7 +39,7 @@ interface ProductService {
             val okHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
             if (retrofitService == null) {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.1.10")
+                    .baseUrl("")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build();
